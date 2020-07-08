@@ -13,7 +13,7 @@ import { Ball } from "./modules/ball"
 // Create base scene
 const baseScene: Entity = new Entity()
 baseScene.addComponent(new GLTFShape("models/baseScene.glb"))
-baseScene.addComponent(new Transform({ scale: new Vector3(2, 1, 2) }))
+baseScene.addComponent(new Transform())
 engine.addEntity(baseScene)
 
 // Ball shapes
