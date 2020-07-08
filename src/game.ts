@@ -95,15 +95,10 @@ class updateSystem implements ISystem {
     // It is generally best to keep the time step and iterations fixed.
     world.step(fixedTimeStep, dt, maxSubSteps)
 
-    // NOTE: the y and z axis are switched
+    // NOTE: Axis for the physics world have been switched
     for (let i = 0; i < balls.length; i++) {
       balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.z, ballBodies[i].position.y)
-      balls[i].getComponent(Transform).rotation = new Quaternion(
-        ballBodies[i].quaternion.y,
-        ballBodies[i].quaternion.z,
-        ballBodies[i].quaternion.x,
-        ballBodies[i].quaternion.w
-      )
+      balls[i].getComponent(Transform).rotation.set(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
     }
   }
 }
