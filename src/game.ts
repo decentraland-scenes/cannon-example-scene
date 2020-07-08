@@ -8,7 +8,7 @@
 */
 
 import utils from "../node_modules/decentraland-ecs-utils/index"
-import { Ball } from "./modules/ball"
+import { Ball } from "./ball"
 
 // Create base scene
 const baseScene: Entity = new Entity()

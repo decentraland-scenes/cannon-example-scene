@@ -4,5 +4,6 @@
     "allowJs": true
   },
   "include": ["src/**/*.ts"],
+  "files": ["node_modules/cannon/build/cannon.js"],
   "extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
 }
