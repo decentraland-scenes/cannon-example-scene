@@ -70,7 +70,7 @@ const ballBodies: CANNON.Body[] = [] // Store ball bodies
 
 // Create bodies to represent each of the balls
 for (let i = 0; i < balls.length; i++) {
-  let ballTransform = balls[i].getComponent(Transform)
+  let ballTransform: Transform = balls[i].getComponent(Transform)
 
   const ballBody: CANNON.Body = new CANNON.Body({
     mass: 5, // kg
@@ -109,7 +109,7 @@ class updateSystem implements ISystem {
 }
 
 // Delay the simulation by 1.5 secs so that you can appreciate the beauty
-const delayEntity = new Entity()
+const delayEntity: Entity = new Entity()
 delayEntity.addComponent(
   new utils.Delay(1500, (): void => {
     engine.addSystem(new updateSystem())
