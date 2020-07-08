@@ -16,7 +16,7 @@ baseScene.addComponent(new GLTFShape("models/baseScene.glb"))
 baseScene.addComponent(new Transform({ scale: new Vector3(2, 1, 2) }))
 engine.addEntity(baseScene)
 
-/// >>>> NEEDS REFECTORING <<<<
+// Ball shapes
 const ballShapes: GLTFShape[] = [
   new GLTFShape("models/redBall.glb"),
   new GLTFShape("models/greenBall.glb"),
@@ -25,8 +25,8 @@ const ballShapes: GLTFShape[] = [
   new GLTFShape("models/yellowBall.glb"),
 ]
 
-const balls: Ball[] = []
-let ballHeight = 12 // Start height
+const balls: Ball[] = [] // Store balls
+let ballHeight = 12 // Start height for the balls
 
 // Create random balls and positions 
 for (let i = 0; i < ballShapes.length; i++) {
