@@ -107,7 +107,7 @@ class updateSystem implements ISystem {
 // Delay the simulation by 1.5 secs so that you can appreciate the beauty
 const delayEntity = new Entity()
 delayEntity.addComponent(
-  new utils.Delay(1500, (): void => {
+  new utils.Delay(2500, (): void => {
     engine.addSystem(new updateSystem())
   })
 )
