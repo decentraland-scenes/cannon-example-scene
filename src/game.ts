@@ -23,9 +23,8 @@ const ballShapes: GLTFShape[] = [
 const balls: Ball[] = [] // Store balls
 let ballHeight = 12 // Start height for the balls
 
-// Create random balls and positions 
+// Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
-
   let randomPositionX: number = Math.floor(Math.random() * 3) + 14
   let randomPositionY: number = ballHeight
   let randomPositionZ: number = Math.floor(Math.random() * 3) + 14
@@ -99,7 +98,12 @@ class updateSystem implements ISystem {
     // NOTE: the y and z axis are switched
     for (let i = 0; i < balls.length; i++) {
       balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.z, ballBodies[i].position.y)
-      balls[i].getComponent(Transform).rotation = new Quaternion(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
+      balls[i].getComponent(Transform).rotation = new Quaternion(
+        ballBodies[i].quaternion.y,
+        ballBodies[i].quaternion.z,
+        ballBodies[i].quaternion.x,
+        ballBodies[i].quaternion.w
+      )
     }
   }
 }
