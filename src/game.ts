@@ -176,6 +176,13 @@ blueBallBody.linearDamping = 0.4
 pinkBallBody.linearDamping = 0.4
 yellowBallBody.linearDamping = 0.4
 
+// Bodies will keep rotating even with friction so you need angularDamping
+redBallBody.angularDamping = 0.4
+greenBallBody.angularDamping = 0.4
+blueBallBody.angularDamping = 0.4
+pinkBallBody.angularDamping = 0.4
+yellowBallBody.angularDamping = 0.4
+
 var fixedTimeStep = 1.0 / 60.0 // seconds
 var maxSubSteps = 3
 
