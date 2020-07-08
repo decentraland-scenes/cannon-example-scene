@@ -1,10 +1,5 @@
 /*
-  IMPORTANT: Need to copy everything from cannon.js and paste at the top of game.js
-  
-  #1 Run 'dcl start'
-  #2 Copy everything from the file "../node_modules/cannon/build/cannon.js" and paste at the top of the file "./bin/game.js"
-  #3 Refresh browser
-  
+  IMPORTANT: The tsconfig.json has been configured to include "node_modules/cannon/build/cannon.js"
 */
 
 import utils from "../node_modules/decentraland-ecs-utils/index"
