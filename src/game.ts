@@ -46,7 +46,7 @@ for (let i = 0; i < ballShapes.length; i++) {
         // TODO: Apply impluse based on camera and where the ray hits the ball
         // Apply impulse based on the direction of the camera
         ballBodies[i].applyImpulse(
-          new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.z * vectorScale, forwardVector.y * vectorScale),
+          new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.y * vectorScale, forwardVector.z * vectorScale),
           new CANNON.Vec3(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
         )
       },
@@ -61,7 +61,7 @@ for (let i = 0; i < ballShapes.length; i++) {
 
 // Setup our world
 const world: CANNON.World = new CANNON.World()
-world.gravity.set(0, 0, -9.82) // m/s²
+world.gravity.set(0, -9.82, 0) // m/s²
 
 var groundPhysicsMaterial = new CANNON.Material("groundMaterial")
 var groundPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, groundPhysicsMaterial, {
@@ -74,6 +74,8 @@ world.addContactMaterial(groundPhysicsContactMaterial)
 const groundBody: CANNON.Body = new CANNON.Body({
   mass: 0, // mass == 0 makes the body static
 })
+groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2) // Reorient ground plane to be in the y-axis
+
 const groundShape: CANNON.Plane = new CANNON.Plane()
 groundBody.addShape(groundShape)
 groundBody.material = groundPhysicsMaterial
@@ -92,7 +94,7 @@ for (let i = 0; i < balls.length; i++) {
 
   const ballBody: CANNON.Body = new CANNON.Body({
     mass: 5, // kg
-    position: new CANNON.Vec3(ballTransform.position.x, ballTransform.position.z, ballTransform.position.y), // m (NOTE: y-axis switched with z-axis)
+    position: new CANNON.Vec3(ballTransform.position.x, ballTransform.position.y, ballTransform.position.z), // m 
     shape: new CANNON.Sphere(1), // m (Create sphere shaped body with a radius of 1)
   })
 
@@ -113,9 +115,9 @@ class updateSystem implements ISystem {
     // It is generally best to keep the time step and iterations fixed.
     world.step(fixedTimeStep, dt, maxSubSteps)
 
-    // NOTE: Axis for the physics world have been switched
+    // Positioned the balls in the scene to match their cannon world counterparts
     for (let i = 0; i < balls.length; i++) {
-      balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.z, ballBodies[i].position.y)
+      balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
       balls[i]
         .getComponent(Transform)
         .rotation.set(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
