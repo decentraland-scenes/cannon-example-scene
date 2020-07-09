@@ -74,7 +74,7 @@ world.addContactMaterial(groundPhysicsContactMaterial)
 const groundBody: CANNON.Body = new CANNON.Body({
   mass: 0, // mass == 0 makes the body static
 })
-groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2) // Reorient ground plane to be in the y-axis
+groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2) // Reorient ground plane to be in the y-axis
 
 const groundShape: CANNON.Plane = new CANNON.Plane()
 groundBody.addShape(groundShape)
@@ -94,7 +94,7 @@ for (let i = 0; i < balls.length; i++) {
 
   const ballBody: CANNON.Body = new CANNON.Body({
     mass: 5, // kg
-    position: new CANNON.Vec3(ballTransform.position.x, ballTransform.position.y, ballTransform.position.z), // m 
+    position: new CANNON.Vec3(ballTransform.position.x, ballTransform.position.y, ballTransform.position.z), // m
     shape: new CANNON.Sphere(1), // m (Create sphere shaped body with a radius of 1)
   })
 
@@ -115,7 +115,7 @@ class updateSystem implements ISystem {
     // It is generally best to keep the time step and iterations fixed.
     world.step(fixedTimeStep, dt, maxSubSteps)
 
-    // Positioned the balls in the scene to match their cannon world counterparts
+    // Position and rotate the balls in the scene to match their cannon world counterparts
     for (let i = 0; i < balls.length; i++) {
       balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
       balls[i]
