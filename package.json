@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@types/cannon": "^0.1.4",
-    "cannon": "github:schteppe/cannon.js",
-    "decentraland-ecs-utils": "^1.1.4"
+    "cannon": "github:schteppe/cannon.js"
   }
 }

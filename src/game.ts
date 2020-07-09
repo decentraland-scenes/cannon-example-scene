@@ -1,8 +1,6 @@
 /*
   IMPORTANT: The tsconfig.json has been configured to include "node_modules/cannon/build/cannon.js"
 */
-
-import utils from "../node_modules/decentraland-ecs-utils/index"
 import { Ball } from "./ball"
 
 // Create base scene
@@ -21,7 +19,10 @@ const ballShapes: GLTFShape[] = [
 ]
 
 const balls: Ball[] = [] // Store balls
+const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
+let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
+let vectorScale: number = 10
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
@@ -37,6 +38,24 @@ for (let i = 0; i < ballShapes.length; i++) {
   )
   balls.push(ball)
   ballHeight += 2 // To ensure the colliders aren't intersecting when the simulation starts
+
+  // Allow the user to interact with the ball
+  ball.addComponent(
+    new OnPointerDown(
+      () => {
+        // Apply impulse based on the direction of the camera
+        ballBodies[i].applyImpulse(
+          new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.z * vectorScale, forwardVector.y * vectorScale),
+          new CANNON.Vec3(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
+        )
+      },
+      {
+        button: ActionButton.ANY,
+        showFeedback: true,
+        hoverText: "kick",
+      }
+    )
+  )
 }
 
 // Setup our world
@@ -65,8 +84,6 @@ var ballPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMateria
   restitution: 0.75,
 })
 world.addContactMaterial(ballPhysicsContactMaterial)
-
-const ballBodies: CANNON.Body[] = [] // Store ball bodies
 
 // Create bodies to represent each of the balls
 for (let i = 0; i < balls.length; i++) {
@@ -98,16 +115,14 @@ class updateSystem implements ISystem {
     // NOTE: Axis for the physics world have been switched
     for (let i = 0; i < balls.length; i++) {
       balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.z, ballBodies[i].position.y)
-      balls[i].getComponent(Transform).rotation.set(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
+      balls[i]
+        .getComponent(Transform)
+        .rotation.set(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
     }
+
+    // Update forward vector
+    forwardVector = Vector3.Forward().rotate(Camera.instance.rotation)
   }
 }
 
-// Delay the simulation by 1.5 secs so that you can appreciate the beauty
-const delayEntity: Entity = new Entity()
-delayEntity.addComponent(
-  new utils.Delay(1500, (): void => {
-    engine.addSystem(new updateSystem())
-  })
-)
-engine.addEntity(delayEntity)
+engine.addSystem(new updateSystem())

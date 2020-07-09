@@ -20,4 +20,4 @@ Followed by:
 dcl start
 ```
 
-The balls will start falling after a couple of seconds.
+Use the Left Mouse Button or 'E' or 'F' keys to interact with the balls.
