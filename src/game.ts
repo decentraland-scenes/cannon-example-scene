@@ -43,6 +43,7 @@ for (let i = 0; i < ballShapes.length; i++) {
   ball.addComponent(
     new OnPointerDown(
       () => {
+        // TODO: Apply impluse based on camera and where the ray hits the ball
         // Apply impulse based on the direction of the camera
         ballBodies[i].applyImpulse(
           new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.z * vectorScale, forwardVector.y * vectorScale),
