@@ -22,7 +22,7 @@ const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 100
+let vectorScale: number = 10
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
@@ -117,10 +117,8 @@ class updateSystem implements ISystem {
 
     // Position and rotate the balls in the scene to match their cannon world counterparts
     for (let i = 0; i < balls.length; i++) {
-      balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
-      balls[i]
-        .getComponent(Transform)
-        .rotation.set(ballBodies[i].quaternion.x, ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.w)
+      balls[i].getComponent(Transform).position.copyFrom(ballBodies[i].position)
+      balls[i].getComponent(Transform).rotation.copyFrom(ballBodies[i].quaternion)
     }
 
     // Update forward vector
