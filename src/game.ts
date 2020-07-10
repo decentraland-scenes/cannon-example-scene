@@ -22,7 +22,7 @@ const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 10
+let vectorScale: number = 100
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
