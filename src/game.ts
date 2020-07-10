@@ -63,8 +63,8 @@ for (let i = 0; i < ballShapes.length; i++) {
 const world: CANNON.World = new CANNON.World()
 world.gravity.set(0, -9.82, 0) // m/s²
 
-var groundPhysicsMaterial = new CANNON.Material("groundMaterial")
-var groundPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, groundPhysicsMaterial, {
+const groundPhysicsMaterial = new CANNON.Material("groundMaterial")
+const groundPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, groundPhysicsMaterial, {
   friction: 0.5,
   restitution: 0.33,
 })
