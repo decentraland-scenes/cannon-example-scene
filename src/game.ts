@@ -120,7 +120,7 @@ class updateSystem implements ISystem {
       balls[i].getComponent(Transform).position.set(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
       balls[i]
         .getComponent(Transform)
-        .rotation.set(ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.x, ballBodies[i].quaternion.w)
+        .rotation.set(ballBodies[i].quaternion.x, ballBodies[i].quaternion.y, ballBodies[i].quaternion.z, ballBodies[i].quaternion.w)
     }
 
     // Update forward vector
