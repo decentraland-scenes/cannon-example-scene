@@ -82,7 +82,7 @@ groundBody.material = groundPhysicsMaterial
 world.addBody(groundBody)
 
 const ballPhysicsMaterial: CANNON.Material = new CANNON.Material("ballMaterial")
-var ballPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, ballPhysicsMaterial, {
+const ballPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, ballPhysicsMaterial, {
   friction: 0.4,
   restitution: 0.75,
 })
