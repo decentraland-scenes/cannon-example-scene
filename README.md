@@ -11,13 +11,13 @@ Simulating a bunch of balls bouncing using the [cannon.js](https://github.com/sc
 After you clone the project, run the following:
 
 ```
-npm install
+$ npm i -g decentraland
 ```
 
 Followed by:
 
 ```
-dcl start
+$ dcl start
 ```
 
 Use the Left Mouse Button or 'E' or 'F' keys to interact with the balls.
