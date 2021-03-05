@@ -22,7 +22,7 @@ const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 100
+let vectorScale: number = 10
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
@@ -42,12 +42,13 @@ for (let i = 0; i < ballShapes.length; i++) {
   // Allow the user to interact with the ball
   ball.addComponent(
     new OnPointerDown(
-      () => {
+      (e) => {
         // TODO: Apply impluse based on camera and where the ray hits the ball
         // Apply impulse based on the direction of the camera
         ballBodies[i].applyImpulse(
           new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.y * vectorScale, forwardVector.z * vectorScale),
-          new CANNON.Vec3(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
+          // Applies impulse based on the player's position and where they click on the ball
+          new CANNON.Vec3(e.hit.hitPoint.x, e.hit.hitPoint.y, e.hit.hitPoint.z) 
         )
       },
       {
