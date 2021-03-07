@@ -2,6 +2,7 @@
   IMPORTANT: The tsconfig.json has been configured to include "node_modules/cannon/build/cannon.js"
 */
 import { Ball } from "./ball"
+import { loadColliders } from "./wallCollidersSetup"
 
 // Create base scene
 const baseScene: Entity = new Entity()
@@ -22,7 +23,7 @@ const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 10
+let vectorScale: number = 25
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
@@ -43,7 +44,6 @@ for (let i = 0; i < ballShapes.length; i++) {
   ball.addComponent(
     new OnPointerDown(
       (e) => {
-        // TODO: Apply impluse based on camera and where the ray hits the ball
         // Apply impulse based on the direction of the camera
         ballBodies[i].applyImpulse(
           new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.y * vectorScale, forwardVector.z * vectorScale),
@@ -63,6 +63,9 @@ for (let i = 0; i < ballShapes.length; i++) {
 // Setup our world
 const world: CANNON.World = new CANNON.World()
 world.gravity.set(0, -9.82, 0) // m/s²
+
+// Add invisible colliders
+loadColliders(world)
 
 const groundPhysicsMaterial = new CANNON.Material("groundMaterial")
 const groundPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, groundPhysicsMaterial, {
