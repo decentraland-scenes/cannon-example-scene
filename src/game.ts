@@ -16,14 +16,14 @@ const ballShapes: GLTFShape[] = [
   new GLTFShape('models/greenBall.glb'),
   new GLTFShape('models/blueBall.glb'),
   new GLTFShape('models/pinkBall.glb'),
-  new GLTFShape('models/yellowBall.glb'),
+  new GLTFShape('models/yellowBall.glb')
 ]
 
 const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 25
+const vectorScale: number = 25
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
@@ -34,7 +34,7 @@ for (let i = 0; i < ballShapes.length; i++) {
   const ball = new Ball(
     ballShapes[i],
     new Transform({
-      position: new Vector3(randomPositionX, randomPositionY, randomPositionZ),
+      position: new Vector3(randomPositionX, randomPositionY, randomPositionZ)
     })
   )
   balls.push(ball)
@@ -58,7 +58,7 @@ for (let i = 0; i < ballShapes.length; i++) {
       {
         button: ActionButton.ANY,
         showFeedback: true,
-        hoverText: 'kick',
+        hoverText: 'kick'
       }
     )
   )
@@ -77,14 +77,14 @@ const groundPhysicsContactMaterial = new CANNON.ContactMaterial(
   groundPhysicsMaterial,
   {
     friction: 0.5,
-    restitution: 0.33,
+    restitution: 0.33
   }
 )
 world.addContactMaterial(groundPhysicsContactMaterial)
 
 // Create a ground plane and apply physics material
 const groundBody: CANNON.Body = new CANNON.Body({
-  mass: 0, // mass === 0 makes the body static
+  mass: 0 // mass === 0 makes the body static
 })
 groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2) // Reorient ground plane to be in the y-axis
 
@@ -99,7 +99,7 @@ const ballPhysicsContactMaterial = new CANNON.ContactMaterial(
   ballPhysicsMaterial,
   {
     friction: 0.4,
-    restitution: 0.75,
+    restitution: 0.75
   }
 )
 world.addContactMaterial(ballPhysicsContactMaterial)
@@ -115,7 +115,7 @@ for (let i = 0; i < balls.length; i++) {
       ballTransform.position.y,
       ballTransform.position.z
     ), // m
-    shape: new CANNON.Sphere(1), // m (Create sphere shaped body with a radius of 1)
+    shape: new CANNON.Sphere(1) // m (Create sphere shaped body with a radius of 1)
   })
 
   ballBody.material = ballPhysicsMaterial // Add bouncy material to ball body
