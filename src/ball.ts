@@ -1,8 +1,5 @@
 export class Ball extends Entity {
-  constructor(
-    model: GLTFShape,
-    transform: Transform,
-  ) {
+  constructor(model: GLTFShape, transform: Transform) {
     super()
     engine.addEntity(this)
     this.addComponent(model)

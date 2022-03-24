@@ -1,39 +1,39 @@
 /*
   IMPORTANT: The tsconfig.json has been configured to include "node_modules/cannon/build/cannon.js"
 */
-import { Ball } from "./ball"
+import { Ball } from './ball'
 
 // Create base scene
 const baseScene: Entity = new Entity()
-baseScene.addComponent(new GLTFShape("models/baseScene.glb"))
+baseScene.addComponent(new GLTFShape('models/baseScene.glb'))
 baseScene.addComponent(new Transform())
 engine.addEntity(baseScene)
 
 // Ball shapes
 const ballShapes: GLTFShape[] = [
-  new GLTFShape("models/redBall.glb"),
-  new GLTFShape("models/greenBall.glb"),
-  new GLTFShape("models/blueBall.glb"),
-  new GLTFShape("models/pinkBall.glb"),
-  new GLTFShape("models/yellowBall.glb"),
+  new GLTFShape('models/redBall.glb'),
+  new GLTFShape('models/greenBall.glb'),
+  new GLTFShape('models/blueBall.glb'),
+  new GLTFShape('models/pinkBall.glb'),
+  new GLTFShape('models/yellowBall.glb')
 ]
 
 const balls: Ball[] = [] // Store balls
 const ballBodies: CANNON.Body[] = [] // Store ball bodies
 let ballHeight = 12 // Start height for the balls
 let forwardVector: Vector3 = Vector3.Forward().rotate(Camera.instance.rotation) // Camera's forward vector
-let vectorScale: number = 100
+const vectorScale: number = 100
 
 // Create random balls and positions
 for (let i = 0; i < ballShapes.length; i++) {
-  let randomPositionX: number = Math.floor(Math.random() * 3) + 14
-  let randomPositionY: number = ballHeight
-  let randomPositionZ: number = Math.floor(Math.random() * 3) + 14
+  const randomPositionX: number = Math.floor(Math.random() * 3) + 14
+  const randomPositionY: number = ballHeight
+  const randomPositionZ: number = Math.floor(Math.random() * 3) + 14
 
   const ball = new Ball(
     ballShapes[i],
     new Transform({
-      position: new Vector3(randomPositionX, randomPositionY, randomPositionZ),
+      position: new Vector3(randomPositionX, randomPositionY, randomPositionZ)
     })
   )
   balls.push(ball)
@@ -46,14 +46,22 @@ for (let i = 0; i < ballShapes.length; i++) {
         // TODO: Apply impluse based on camera and where the ray hits the ball
         // Apply impulse based on the direction of the camera
         ballBodies[i].applyImpulse(
-          new CANNON.Vec3(forwardVector.x * vectorScale, forwardVector.y * vectorScale, forwardVector.z * vectorScale),
-          new CANNON.Vec3(ballBodies[i].position.x, ballBodies[i].position.y, ballBodies[i].position.z)
+          new CANNON.Vec3(
+            forwardVector.x * vectorScale,
+            forwardVector.y * vectorScale,
+            forwardVector.z * vectorScale
+          ),
+          new CANNON.Vec3(
+            ballBodies[i].position.x,
+            ballBodies[i].position.y,
+            ballBodies[i].position.z
+          )
         )
       },
       {
         button: ActionButton.ANY,
         showFeedback: true,
-        hoverText: "kick",
+        hoverText: 'kick'
       }
     )
   )
@@ -63,16 +71,20 @@ for (let i = 0; i < ballShapes.length; i++) {
 const world: CANNON.World = new CANNON.World()
 world.gravity.set(0, -9.82, 0) // m/s²
 
-const groundPhysicsMaterial = new CANNON.Material("groundMaterial")
-const groundPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, groundPhysicsMaterial, {
-  friction: 0.5,
-  restitution: 0.33,
-})
+const groundPhysicsMaterial = new CANNON.Material('groundMaterial')
+const groundPhysicsContactMaterial = new CANNON.ContactMaterial(
+  groundPhysicsMaterial,
+  groundPhysicsMaterial,
+  {
+    friction: 0.5,
+    restitution: 0.33
+  }
+)
 world.addContactMaterial(groundPhysicsContactMaterial)
 
 // Create a ground plane and apply physics material
 const groundBody: CANNON.Body = new CANNON.Body({
-  mass: 0, // mass == 0 makes the body static
+  mass: 0 // mass === 0 makes the body static
 })
 groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2) // Reorient ground plane to be in the y-axis
 
@@ -81,21 +93,29 @@ groundBody.addShape(groundShape)
 groundBody.material = groundPhysicsMaterial
 world.addBody(groundBody)
 
-const ballPhysicsMaterial: CANNON.Material = new CANNON.Material("ballMaterial")
-const ballPhysicsContactMaterial = new CANNON.ContactMaterial(groundPhysicsMaterial, ballPhysicsMaterial, {
-  friction: 0.4,
-  restitution: 0.75,
-})
+const ballPhysicsMaterial: CANNON.Material = new CANNON.Material('ballMaterial')
+const ballPhysicsContactMaterial = new CANNON.ContactMaterial(
+  groundPhysicsMaterial,
+  ballPhysicsMaterial,
+  {
+    friction: 0.4,
+    restitution: 0.75
+  }
+)
 world.addContactMaterial(ballPhysicsContactMaterial)
 
 // Create bodies to represent each of the balls
 for (let i = 0; i < balls.length; i++) {
-  let ballTransform: Transform = balls[i].getComponent(Transform)
+  const ballTransform: Transform = balls[i].getComponent(Transform)
 
   const ballBody: CANNON.Body = new CANNON.Body({
     mass: 5, // kg
-    position: new CANNON.Vec3(ballTransform.position.x, ballTransform.position.y, ballTransform.position.z), // m
-    shape: new CANNON.Sphere(1), // m (Create sphere shaped body with a radius of 1)
+    position: new CANNON.Vec3(
+      ballTransform.position.x,
+      ballTransform.position.y,
+      ballTransform.position.z
+    ), // m
+    shape: new CANNON.Sphere(1) // m (Create sphere shaped body with a radius of 1)
   })
 
   ballBody.material = ballPhysicsMaterial // Add bouncy material to ball body
@@ -118,12 +138,14 @@ class updateSystem implements ISystem {
     // Position and rotate the balls in the scene to match their cannon world counterparts
     for (let i = 0; i < balls.length; i++) {
       balls[i].getComponent(Transform).position.copyFrom(ballBodies[i].position)
-      balls[i].getComponent(Transform).rotation.copyFrom(ballBodies[i].quaternion)
+      balls[i]
+        .getComponent(Transform)
+        .rotation.copyFrom(ballBodies[i].quaternion)
     }
 
     // Update forward vector
     forwardVector = Vector3.Forward().rotate(Camera.instance.rotation)
-    log("Forward Vector: ", forwardVector)
+    log('Forward Vector: ', forwardVector)
   }
 }
 
